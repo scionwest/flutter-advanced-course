@@ -10,6 +10,17 @@
             "deviceId": "macos",
             "toolArgs": [
             ]
+        },
+        {
+            "name": "Flutter (Windows)",
+            "program": "lib/main.dart",
+            "cwd": "src",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "debug",
+            "deviceId": "windows",
+            "toolArgs": [
+            ]
         }
     ]
 }
