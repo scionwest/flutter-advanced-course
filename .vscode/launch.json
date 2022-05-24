@@ -1,0 +1,15 @@
+{
+    "configurations": [
+        {
+            "name": "Flutter (macOS)",
+            "program": "lib/main.dart",
+            "cwd": "src",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "debug",
+            "deviceId": "macos",
+            "toolArgs": [
+            ]
+        }
+    ]
+}
