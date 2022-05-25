@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/presentation/theme_manager.dart';
 import 'package:myapp/test.dart';
 
 class MyApp extends StatefulWidget {
@@ -22,13 +23,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    const test = TestWidget();
-    test.getAppState();
-    test.updateAppState();
-    test.getAppState();
-
-    return Container(
-      child: test,
+    return MaterialApp(
+      theme: getApplicationTheme(),
     );
   }
 }
