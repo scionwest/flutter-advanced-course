@@ -59,18 +59,38 @@ ThemeData getApplicationTheme() {
 
     // input theme
     inputDecorationTheme: InputDecorationTheme(
-        contentPadding: const EdgeInsets.all(AppPadding.small),
-        hintStyle: getRegularStyle(color: ColorManager.grey1),
-        labelStyle: getMediumStyle(color: ColorManager.darkGrey),
-        errorStyle: getRegularStyle(color: ColorManager.error),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: ColorManager.grey,
-            width: AppSize.thin,
-          ),
-          borderRadius: const BorderRadius.all(
-            Radius.circular(AppSize.small),
-          ),
-        )),
+      contentPadding: const EdgeInsets.all(AppPadding.small),
+      hintStyle: getRegularStyle(color: ColorManager.grey1),
+      labelStyle: getMediumStyle(color: ColorManager.darkGrey),
+      errorStyle: getRegularStyle(color: ColorManager.error),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: ColorManager.grey,
+          width: AppSize.thin,
+        ),
+        borderRadius: const BorderRadius.all(Radius.circular(AppSize.small)),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: ColorManager.primary,
+          width: AppSize.thin,
+        ),
+        borderRadius: const BorderRadius.all(Radius.circular(AppSize.small)),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: ColorManager.error,
+          width: AppSize.thin,
+        ),
+        borderRadius: const BorderRadius.all(Radius.circular(AppSize.small)),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: ColorManager.primary,
+          width: AppSize.thin,
+        ),
+        borderRadius: const BorderRadius.all(Radius.circular(AppSize.small)),
+      ),
+    ),
   );
 }
