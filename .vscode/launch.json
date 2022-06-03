@@ -1,6 +1,25 @@
 {
     "configurations": [
         {
+            "name": "Flutter (Android)",
+            "program": "lib/main.dart",
+            "cwd": "src",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "emulator-5554",
+            "toolArgs": []
+        },
+        {
+            "name": "Flutter (iPhone Simulator)",
+            "program": "lib/main.dart",
+            "cwd": "src",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "debug",
+            "deviceId": "CA461C67-E0BA-4717-8FC7-77B07245E94D",
+            "toolArgs": []
+        },
+        {
             "name": "Flutter (macOS)",
             "program": "lib/main.dart",
             "cwd": "src",
