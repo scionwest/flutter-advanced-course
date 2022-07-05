@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:myapp/presentation/resources/assets_manager.dart';
 import 'package:myapp/presentation/resources/color_manager.dart';
 import 'package:myapp/presentation/resources/strings_manager.dart';
@@ -31,28 +32,83 @@ class _OnboardingViewState extends State<OnboardingView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ColorManager.white,
+      appBar: AppBar(
         backgroundColor: ColorManager.white,
-        appBar: AppBar(
-          elevation: AppSize.small,
-          systemOverlayStyle: SystemUiOverlayStyle(
-            statusBarColor: ColorManager.white,
-            statusBarBrightness: Brightness.dark,
-            statusBarIconBrightness: Brightness.dark,
+        elevation: AppSize.zero,
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: ColorManager.white,
+          statusBarBrightness: Brightness.dark,
+          statusBarIconBrightness: Brightness.dark,
+        ),
+      ),
+      body: PageView.builder(
+        controller: _pageController,
+        itemCount: _sliderList.length,
+        onPageChanged: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+        itemBuilder: (context, index) {
+          return OnboardingPage(_sliderList[index]);
+        },
+      ),
+      bottomSheet: Container(
+          color: ColorManager.white,
+          height: AppSize.extraLarge,
+          child: Column(
+            children: [
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: () {},
+                  child: const Text(
+                    AppStrings.skip,
+                    textAlign: TextAlign.end,
+                  ),
+                ),
+              ),
+              // Add layout for page indicator and arrows
+            ],
+          )),
+    );
+  }
+}
+
+class OnboardingPage extends StatelessWidget {
+  final SliderObject _sliderObject;
+
+  const OnboardingPage(this._sliderObject, {Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        const SizedBox(height: AppSize.small),
+        Padding(
+          padding: const EdgeInsets.all(AppPadding.small),
+          child: Text(
+            _sliderObject.title,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.headline1,
           ),
         ),
-        body: PageView.builder(
-          controller: _pageController,
-          itemCount: _sliderList.length,
-          onPageChanged: (index) {
-            setState(() {
-              _currentIndex = index;
-            });
-          },
-          itemBuilder: (context, index) {
-            // return OnBoardingPage
-            return const Text('test');
-          },
-        ));
+        Padding(
+          padding: const EdgeInsets.all(AppPadding.thin),
+          child: Text(
+            _sliderObject.subtitle,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.subtitle1,
+          ),
+        ),
+        const SizedBox(
+          height: AppSize.medium,
+        ),
+        SvgPicture.asset(_sliderObject.image),
+      ],
+    );
   }
 }
 
