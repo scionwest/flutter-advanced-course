@@ -70,9 +70,64 @@ class _OnboardingViewState extends State<OnboardingView> {
                 ),
               ),
               // Add layout for page indicator and arrows
+              _getBottomSheetWidget(),
             ],
           )),
     );
+  }
+
+  Widget _getBottomSheetWidget() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        // left arrow
+        Padding(
+          padding: const EdgeInsets.all(AppPadding.medium),
+          child: GestureDetector(
+            child: SizedBox(
+              height: AppSize.medium,
+              width: AppSize.medium,
+              child: SvgPicture.asset(ImageAssets.leftArrow),
+            ),
+            onTap: () {},
+          ),
+        ),
+
+        // circle indicator
+        Row(
+          children: [
+            for (int index = 0; index < _sliderList.length; index++)
+              Padding(
+                padding: const EdgeInsets.all(
+                  AppPadding.small,
+                ),
+                child: _getProperCircle(index),
+              ),
+          ],
+        ),
+
+        // right arrow
+        Padding(
+          padding: const EdgeInsets.all(AppPadding.medium),
+          child: GestureDetector(
+            child: SizedBox(
+              height: AppSize.medium,
+              width: AppSize.medium,
+              child: SvgPicture.asset(ImageAssets.rightArrow),
+            ),
+            onTap: () {},
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget _getProperCircle(int index) {
+    if (index == _currentIndex) {
+      return SvgPicture.asset(ImageAssets.hollowCircle);
+    } else {
+      return SvgPicture.asset(ImageAssets.solidCircle)
+    }
   }
 }
 
