@@ -9,7 +9,7 @@ import 'package:myapp/presentation/resources/value_manager.dart';
 import '../resources/routes_manager.dart';
 
 class OnboardingView extends StatefulWidget {
-  OnboardingView({Key? key}) : super(key: key);
+  const OnboardingView({Key? key}) : super(key: key);
 
   @override
   State<OnboardingView> createState() => _OnboardingViewState();
@@ -18,7 +18,7 @@ class OnboardingView extends StatefulWidget {
 class _OnboardingViewState extends State<OnboardingView> {
   late final List<SliderObject> _sliderList = _getSliderData();
   int _currentIndex = 0;
-  PageController _pageController = PageController(initialPage: 0);
+  final PageController _pageController = PageController(initialPage: 0);
 
   List<SliderObject> _getSliderData() => [
         SliderObject(
