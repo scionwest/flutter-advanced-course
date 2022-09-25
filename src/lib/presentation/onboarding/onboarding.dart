@@ -6,6 +6,8 @@ import 'package:myapp/presentation/resources/color_manager.dart';
 import 'package:myapp/presentation/resources/strings_manager.dart';
 import 'package:myapp/presentation/resources/value_manager.dart';
 
+import '../resources/routes_manager.dart';
+
 class OnboardingView extends StatefulWidget {
   OnboardingView({Key? key}) : super(key: key);
 
@@ -62,9 +64,12 @@ class _OnboardingViewState extends State<OnboardingView> {
               Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(
-                  onPressed: () {},
-                  child: const Text(
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(context, Routes.loginRoute);
+                  },
+                  child: Text(
                     AppStrings.skip,
+                    style: Theme.of(context).textTheme.subtitle2,
                     textAlign: TextAlign.end,
                   ),
                 ),
@@ -77,48 +82,65 @@ class _OnboardingViewState extends State<OnboardingView> {
   }
 
   Widget _getBottomSheetWidget() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        // left arrow
-        Padding(
-          padding: const EdgeInsets.all(AppPadding.medium),
-          child: GestureDetector(
-            child: SizedBox(
-              height: AppSize.medium,
-              width: AppSize.medium,
-              child: SvgPicture.asset(ImageAssets.leftArrow),
-            ),
-            onTap: () {},
-          ),
-        ),
-
-        // circle indicator
-        Row(
-          children: [
-            for (int index = 0; index < _sliderList.length; index++)
-              Padding(
-                padding: const EdgeInsets.all(
-                  AppPadding.small,
-                ),
-                child: _getProperCircle(index),
+    return Container(
+      color: ColorManager.primary,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          // left arrow
+          Padding(
+            padding: const EdgeInsets.all(AppPadding.medium),
+            child: GestureDetector(
+              child: SizedBox(
+                height: AppSize.medium,
+                width: AppSize.medium,
+                child: SvgPicture.asset(ImageAssets.leftArrow),
               ),
-          ],
-        ),
-
-        // right arrow
-        Padding(
-          padding: const EdgeInsets.all(AppPadding.medium),
-          child: GestureDetector(
-            child: SizedBox(
-              height: AppSize.medium,
-              width: AppSize.medium,
-              child: SvgPicture.asset(ImageAssets.rightArrow),
+              onTap: () {
+                // go to previous slide
+                _pageController.animateToPage(
+                  _getPreviousIndex(),
+                  duration: const Duration(milliseconds: DurationConstant.fast),
+                  curve: Curves.bounceInOut,
+                );
+              },
             ),
-            onTap: () {},
           ),
-        )
-      ],
+
+          // circle indicator
+          Row(
+            children: [
+              for (int index = 0; index < _sliderList.length; index++)
+                Padding(
+                  padding: const EdgeInsets.all(
+                    AppPadding.small,
+                  ),
+                  child: _getProperCircle(index),
+                ),
+            ],
+          ),
+
+          // right arrow
+          Padding(
+            padding: const EdgeInsets.all(AppPadding.medium),
+            child: GestureDetector(
+              child: SizedBox(
+                height: AppSize.medium,
+                width: AppSize.medium,
+                child: SvgPicture.asset(ImageAssets.rightArrow),
+              ),
+              onTap: () {
+                // go to next slide
+                _pageController.animateToPage(
+                  _getNextIndex(),
+                  duration: const Duration(milliseconds: DurationConstant.fast),
+                  curve: Curves.bounceInOut,
+                );
+              },
+            ),
+          )
+        ],
+      ),
     );
   }
 
@@ -126,8 +148,26 @@ class _OnboardingViewState extends State<OnboardingView> {
     if (index == _currentIndex) {
       return SvgPicture.asset(ImageAssets.hollowCircle);
     } else {
-      return SvgPicture.asset(ImageAssets.solidCircle)
+      return SvgPicture.asset(ImageAssets.solidCircle);
     }
+  }
+
+  int _getPreviousIndex() {
+    int previousIndex = _currentIndex - 1;
+    if (previousIndex == -1) {
+      previousIndex = _sliderList.length - 1; // infinite loop. Loop to the end of the list when at index 0.
+    }
+
+    return previousIndex;
+  }
+
+  int _getNextIndex() {
+    int nextIndex = _currentIndex++;
+    if (nextIndex >= _sliderList.length) {
+      nextIndex = 0;
+    }
+
+    return nextIndex;
   }
 }
 

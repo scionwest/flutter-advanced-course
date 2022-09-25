@@ -22,3 +22,7 @@ class AppSize {
   static const double large = 64.0;
   static const double extraLarge = 128.0;
 }
+
+class DurationConstant {
+  static const int fast = 300;
+}
