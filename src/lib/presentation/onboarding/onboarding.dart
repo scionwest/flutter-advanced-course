@@ -16,20 +16,13 @@ class OnboardingView extends StatefulWidget {
 }
 
 class _OnboardingViewState extends State<OnboardingView> {
-  late final List<SliderObject> _sliderList = _getSliderData();
-  int _currentIndex = 0;
   final PageController _pageController = PageController(initialPage: 0);
 
-  List<SliderObject> _getSliderData() => [
-        SliderObject(
-            AppStrings.onboardingTitle1, AppStrings.onboardingSubtitle1, ImageAssets.onboardingLogo1),
-        SliderObject(
-            AppStrings.onboardingTitle2, AppStrings.onboardingSubtitle2, ImageAssets.onboardingLogo2),
-        SliderObject(
-            AppStrings.onboardingTitle3, AppStrings.onboardingSubtitle3, ImageAssets.onboardingLogo3),
-        SliderObject(
-            AppStrings.onboardingTitle4, AppStrings.onboardingSubtitle4, ImageAssets.onboardingLogo4),
-      ];
+  @override
+  void dispose() {
+    // TODO: viewmodel.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -205,12 +198,4 @@ class OnboardingPage extends StatelessWidget {
       ],
     );
   }
-}
-
-class SliderObject {
-  String title;
-  String subtitle;
-  String image;
-
-  SliderObject(this.title, this.subtitle, this.image);
 }
