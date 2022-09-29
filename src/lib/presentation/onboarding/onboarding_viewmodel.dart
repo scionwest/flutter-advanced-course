@@ -22,21 +22,34 @@ class OnboardingViewModel extends BaseViewModel with OnBoardingViewModelInputs, 
   @override
   void start() {
     _sliderList = _getSliderData();
+    // send this slider data to our view via the stream.
+    _postDataToView();
   }
 
   @override
   void goNext() {
-    // TODO: implement goNext
+    int nextIndex = _currentIndex++;
+    if (nextIndex >= _sliderList.length) {
+      nextIndex = 0;
+    }
+
+    onPageChanged(nextIndex);
   }
 
   @override
   void goPrevious() {
-    // TODO: implement goPrevious
+    int previousIndex = _currentIndex - 1;
+    if (previousIndex == -1) {
+      previousIndex = _sliderList.length - 1; // infinite loop. Loop to the end of the list when at index 0.
+    }
+
+    onPageChanged(previousIndex);
   }
 
   @override
   void onPageChanged(int newIndex) {
-    // TODO: implement onPageChanged
+    _currentIndex = newIndex;
+    _postDataToView();
   }
 
   @override
@@ -50,7 +63,6 @@ class OnboardingViewModel extends BaseViewModel with OnBoardingViewModelInputs, 
       _streamController.stream.map((sliderViewObject) => sliderViewObject);
 
   // private functions
-
   List<SliderObject> _getSliderData() => [
         SliderObject(
             AppStrings.onboardingTitle1, AppStrings.onboardingSubtitle1, ImageAssets.onboardingLogo1),
@@ -61,6 +73,11 @@ class OnboardingViewModel extends BaseViewModel with OnBoardingViewModelInputs, 
         SliderObject(
             AppStrings.onboardingTitle4, AppStrings.onboardingSubtitle4, ImageAssets.onboardingLogo4),
       ];
+
+  void _postDataToView() {
+    inputSliderViewObject
+        .add(SliderViewObject(_sliderList[_currentIndex], _sliderList.length, _currentIndex));
+  }
 }
 
 // inputs mean the order that our view model will receive from our view

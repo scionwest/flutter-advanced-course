@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:myapp/domain/model.dart';
+import 'package:myapp/presentation/onboarding/onboarding_viewmodel.dart';
 import 'package:myapp/presentation/resources/assets_manager.dart';
 import 'package:myapp/presentation/resources/color_manager.dart';
 import 'package:myapp/presentation/resources/strings_manager.dart';
@@ -18,14 +20,35 @@ class OnboardingView extends StatefulWidget {
 class _OnboardingViewState extends State<OnboardingView> {
   final PageController _pageController = PageController(initialPage: 0);
 
+  final OnboardingViewModel _viewModel = OnboardingViewModel();
+
+  @override
+  void initState() {
+    _bind();
+    super.initState();
+  }
+
   @override
   void dispose() {
-    // TODO: viewmodel.dispose();
+    _viewModel.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    return StreamBuilder<SliderViewObject>(
+      stream: _viewModel.outputSliderViewObject,
+      builder: (context, snapshot) {
+        return _getContentWidget(snapshot.data);
+      },
+    );
+  }
+
+  Widget _getContentWidget(SliderViewObject? sliderViewObject) {
+    if (sliderViewObject == null) {
+      return Container();
+    }
+
     return Scaffold(
       backgroundColor: ColorManager.white,
       appBar: AppBar(
@@ -39,14 +62,12 @@ class _OnboardingViewState extends State<OnboardingView> {
       ),
       body: PageView.builder(
         controller: _pageController,
-        itemCount: _sliderList.length,
+        itemCount: sliderViewObject.numberOfSlides,
         onPageChanged: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
+          _viewModel.onPageChanged(index);
         },
         itemBuilder: (context, index) {
-          return OnboardingPage(_sliderList[index]);
+          return OnboardingPage(sliderViewObject.sliderObject);
         },
       ),
       bottomSheet: Container(
@@ -145,22 +166,8 @@ class _OnboardingViewState extends State<OnboardingView> {
     }
   }
 
-  int _getPreviousIndex() {
-    int previousIndex = _currentIndex - 1;
-    if (previousIndex == -1) {
-      previousIndex = _sliderList.length - 1; // infinite loop. Loop to the end of the list when at index 0.
-    }
-
-    return previousIndex;
-  }
-
-  int _getNextIndex() {
-    int nextIndex = _currentIndex++;
-    if (nextIndex >= _sliderList.length) {
-      nextIndex = 0;
-    }
-
-    return nextIndex;
+  void _bind() {
+    _viewModel.start();
   }
 }
 
