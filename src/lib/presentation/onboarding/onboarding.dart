@@ -89,13 +89,13 @@ class _OnboardingViewState extends State<OnboardingView> {
                 ),
               ),
               // Add layout for page indicator and arrows
-              _getBottomSheetWidget(),
+              _getBottomSheetWidget(sliderViewObject),
             ],
           )),
     );
   }
 
-  Widget _getBottomSheetWidget() {
+  Widget _getBottomSheetWidget(SliderViewObject sliderViewObject) {
     return Container(
       color: ColorManager.primary,
       child: Row(
@@ -113,7 +113,7 @@ class _OnboardingViewState extends State<OnboardingView> {
               onTap: () {
                 // go to previous slide
                 _pageController.animateToPage(
-                  _getPreviousIndex(),
+                  _viewModel.goPrevious(),
                   duration: const Duration(milliseconds: DurationConstant.fast),
                   curve: Curves.bounceInOut,
                 );
@@ -124,12 +124,12 @@ class _OnboardingViewState extends State<OnboardingView> {
           // circle indicator
           Row(
             children: [
-              for (int index = 0; index < _sliderList.length; index++)
+              for (int index = 0; index < sliderViewObject.numberOfSlides; index++)
                 Padding(
                   padding: const EdgeInsets.all(
                     AppPadding.small,
                   ),
-                  child: _getProperCircle(index),
+                  child: _getProperCircle(index, sliderViewObject.currentIndex),
                 ),
             ],
           ),
@@ -146,7 +146,7 @@ class _OnboardingViewState extends State<OnboardingView> {
               onTap: () {
                 // go to next slide
                 _pageController.animateToPage(
-                  _getNextIndex(),
+                  _viewModel.goNext(),
                   duration: const Duration(milliseconds: DurationConstant.fast),
                   curve: Curves.bounceInOut,
                 );
@@ -158,8 +158,8 @@ class _OnboardingViewState extends State<OnboardingView> {
     );
   }
 
-  Widget _getProperCircle(int index) {
-    if (index == _currentIndex) {
+  Widget _getProperCircle(int index, int currentIndex) {
+    if (index == currentIndex) {
       return SvgPicture.asset(ImageAssets.hollowCircle);
     } else {
       return SvgPicture.asset(ImageAssets.solidCircle);

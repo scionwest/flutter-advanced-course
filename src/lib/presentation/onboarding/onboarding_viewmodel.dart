@@ -27,23 +27,25 @@ class OnboardingViewModel extends BaseViewModel with OnBoardingViewModelInputs, 
   }
 
   @override
-  void goNext() {
-    int nextIndex = _currentIndex++;
+  int goNext() {
+    int nextIndex = _currentIndex + 1;
     if (nextIndex >= _sliderList.length) {
       nextIndex = 0;
     }
 
     onPageChanged(nextIndex);
+    return nextIndex;
   }
 
   @override
-  void goPrevious() {
+  int goPrevious() {
     int previousIndex = _currentIndex - 1;
     if (previousIndex == -1) {
       previousIndex = _sliderList.length - 1; // infinite loop. Loop to the end of the list when at index 0.
     }
 
     onPageChanged(previousIndex);
+    return previousIndex;
   }
 
   @override
@@ -54,7 +56,7 @@ class OnboardingViewModel extends BaseViewModel with OnBoardingViewModelInputs, 
 
   @override
   // TODO: implement inputSliderViewObject
-  Sink get inputSliderViewObject => throw UnimplementedError();
+  Sink get inputSliderViewObject => _streamController.sink;
 
   // outputs
   @override
